@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <table id="dataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>DateOfBirth</th>
+                <th>Married</th>
+                <th>Phone</th>
+                <th>Salary</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tiger Nixon</td>
+                <td>2011-04-25</td>
+                <td>yes</td>
+                <td>099-12345678</td>
+                <td>$320,800</td>
+                <td>
+                    <button class="btn btn-primary editBtn" data-id="123">Edit</button>
+                    <button class="btn btn-danger deleteBtn" data-id="123">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Garrett Winters</td>
+                <td>2011-07-25</td>
+                <td>no</td>
+                <td>099-12345678</td>
+                <td>$170,750</td>
+                <td>
+                    <button class="btn btn-primary editBtn" data-id="123">Edit</button>
+                    <button class="btn btn-danger deleteBtn" data-id="13">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Ashton Cox</td>
+                <td>2009-01-12</td>
+                <td>no</td>
+                <td>099-12345678</td>
+                <td>$86,000</td>
+                <td>
+                    <button class="btn btn-primary editBtn" data-id="123">Edit</button>
+                    <button class="btn btn-danger deleteBtn" data-id="123">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>DateOfBirth</th>
+                <th>Married</th>
+                <th>Phone</th>
+                <th>Salary</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@section Scripts{
+    <script>
+        $('#dataTable').DataTable();
+
+        $(document).on('click', '.editBtn', function () {
+            var id = $(this).data('id');
+            alert('Edit button clicked for ID: ' + id);
+        });
+
+        $(document).on('click', '.deleteBtn', function () {
+            var id = $(this).data('id');
+            alert('Delete button clicked for ID: ' + id);
+        });
+    </script>
+}
