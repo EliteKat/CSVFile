@@ -1,4 +1,5 @@
 using CSVFile.Data;
+using CSVFile.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 // Add application identity
 builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
 	.AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddTransient<ICSVDataService, CSVDataService>();
 
 
 var app = builder.Build();
