@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<CSVFile.Models.CSVData>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -15,39 +16,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Tiger Nixon</td>
-                <td>2011-04-25</td>
-                <td>yes</td>
-                <td>099-12345678</td>
-                <td>$320,800</td>
-                <td>
-                    <button class="btn btn-primary editBtn" data-id="123">Edit</button>
-                    <button class="btn btn-danger deleteBtn" data-id="123">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Garrett Winters</td>
-                <td>2011-07-25</td>
-                <td>no</td>
-                <td>099-12345678</td>
-                <td>$170,750</td>
-                <td>
-                    <button class="btn btn-primary editBtn" data-id="123">Edit</button>
-                    <button class="btn btn-danger deleteBtn" data-id="13">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Ashton Cox</td>
-                <td>2009-01-12</td>
-                <td>no</td>
-                <td>099-12345678</td>
-                <td>$86,000</td>
-                <td>
-                    <button class="btn btn-primary editBtn" data-id="123">Edit</button>
-                    <button class="btn btn-danger deleteBtn" data-id="123">Delete</button>
-                </td>
-            </tr>
+            @{
+                foreach (var data in Model)
+                {
+                    <tr>
+                        <td>@data.Name</td>
+                        <td>@data.DateOfBirth</td>
+                        <td>@data.Married</td>
+                        <td>@data.Phone</td>
+                        <td>@data.Salary</td>
+                        <td>
+                            <a asp-controller="CSVData" asp-action="Edit" asp-route-id="@data.Id" class="btn btn-primary editBtn">Edit</a>
+                            <a asp-controller="CSVData" asp-action="Delete" asp-route-id="@data.Id" class="btn btn-danger deleteBtn">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
         <tfoot>
             <tr>
@@ -63,17 +47,5 @@
 </div>
 
 @section Scripts{
-    <script>
-        $('#dataTable').DataTable();
-
-        $(document).on('click', '.editBtn', function () {
-            var id = $(this).data('id');
-            alert('Edit button clicked for ID: ' + id);
-        });
-
-        $(document).on('click', '.deleteBtn', function () {
-            var id = $(this).data('id');
-            alert('Delete button clicked for ID: ' + id);
-        });
-    </script>
+    <script>$('#dataTable').DataTable();</script>
 }
