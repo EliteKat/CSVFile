@@ -13,6 +13,7 @@ namespace CSVFile.Services
     public interface ICSVDataService
     {
         public Task<bool> UploadAsync(IFormFile file);
+        public Task<byte[]> DownloadAsync();
         public Task<bool> EditAsync(Guid id, CSVData updatedData);
         public Task<bool> DeleteAsync(Guid id);
     }
@@ -60,6 +61,38 @@ namespace CSVFile.Services
             // return false if there is an error somewhere
             return false;
         }
+
+        public async Task<byte[]> DownloadAsync()
+        {
+            try
+            {
+                List<CSVData> records = await _context.CSVDatas.ToListAsync();
+                if (records == null || !records.Any())
+                    throw new InvalidOperationException("No data available to download.");
+
+                using (var memoryStream = new MemoryStream())
+                using (var streamWriter = new StreamWriter(memoryStream))
+                using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+                {
+                    csvWriter.WriteRecords(records);
+                    streamWriter.Flush();
+                    return memoryStream.ToArray();
+                }
+            }
+            catch (CsvHelperException ex)
+            {
+                throw new ApplicationException("An error occurred while processing the CSV file.", ex);
+            }
+            catch (IOException ex)
+            {
+                throw new ApplicationException("An error occurred while writing the CSV file.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occurred.", ex);
+            }
+        }
+
         public async Task<bool> EditAsync(Guid id, CSVData updatedData)
         {
             var csvData = await _context.CSVDatas.FindAsync(id);
@@ -89,6 +122,7 @@ namespace CSVFile.Services
 
             return false;
         }
+
         public async Task<bool> DeleteAsync(Guid id)
         {
             var csvData = await _context.CSVDatas.FindAsync(id);

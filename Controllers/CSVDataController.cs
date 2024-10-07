@@ -38,6 +38,13 @@ namespace CSVFile.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Download()
+        {
+            var fileContent = await _iCSVDataService.DownloadAsync();
+            return File(fileContent, "text/csv", "csvdata.csv");
+        }
+
         public async Task<IActionResult> Edit(Guid id)
         {
             if (id == Guid.Empty)
